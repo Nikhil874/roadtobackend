@@ -35,6 +35,20 @@
 
       <button onclick="deleteProduct()">Delete Product</button>
     </div>
+    <div>
+      <h1>Get ALL Products</h1>
+      <button onclick="getProducts()">GEt Products</button>
+    </div>
+    <div>
+      <h3>Change Product</h3>
+      <input type="number" placeholder="id" id="cid" />
+
+      <input type="name" placeholder="name" id="cname" />
+
+      <input type="number" placeholder="price" id="cprice" />
+
+      <button onclick="changeProduct()">Update Product</button>
+    </div>
   </body>
 </html>
 <script>
@@ -82,6 +96,40 @@ catch(e){
 }
 
 
+}
+
+async function getProducts(){
+  let response=await fetch('http://127.0.0.1:6523/api/products');
+  let data=await response.json();
+  console.log(data);
+
+}
+
+async function changeProduct(){
+    //1.url
+    //2.body
+    //3.headers
+    try{
+        let data={
+           
+            name:document.getElementById('cname').value,
+            price:document.getElementById('cprice').value
+        }
+        data =JSON.stringify(data)
+        let id=document.getElementById('cid').value;
+        let response=await fetch(`http://127.0.0.1:6523/api/products/${id}`,{
+            method:'PUT',
+            body:data,
+            headers :{
+                "Content-Type":'application/json'
+            }
+        })
+        let d=await response.json()
+        console.log('data:',d);
+    }
+    catch(e){
+        console.log(e);
+    }
 }
 
 </script>
