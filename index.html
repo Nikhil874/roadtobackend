@@ -9,14 +9,26 @@
 
   <style>
     div {
-      width: 13%;
+      width: 50%;
     }
     input,
     button {
       margin-top: 10px;
     }
+    #main{
+      display: flex;
+     gap: 300px;
+    }
+    #productdata{
+      border: 1px solid teal;
+      height: 200px;
+      width: 200px;
+      overflow: scroll;
+    }
   </style>
   <body>
+    <div id="main">
+      <div>
     <div>
       <h1>Add Product</h1>
       <input type="number" placeholder="id" id="id" />
@@ -35,10 +47,7 @@
 
       <button onclick="deleteProduct()">Delete Product</button>
     </div>
-    <div>
-      <h1>Get ALL Products</h1>
-      <button onclick="getProducts()">GEt Products</button>
-    </div>
+    
     <div>
       <h3>Change Product</h3>
       <input type="number" placeholder="id" id="cid" />
@@ -49,6 +58,13 @@
 
       <button onclick="changeProduct()">Update Product</button>
     </div>
+  </div>
+    <div>
+      <h1>Get ALL Products</h1>
+      <button onclick="getProducts()">GEt Products</button>
+      <div id="productdata"></div>
+    </div>
+  </div>
   </body>
 </html>
 <script>
@@ -101,7 +117,17 @@ catch(e){
 async function getProducts(){
   let response=await fetch('http://127.0.0.1:6523/api/products');
   let data=await response.json();
-  console.log(data);
+  var productdata=document.getElementById("productdata");
+data.map(({id,name,price})=>{
+let p1= document.createElement("p");
+p1.textContent=`id:${id}`;
+let p2= document.createElement("p");
+  p2.textContent=`name:${name}`;
+  let p3= document.createElement("p");
+  p3.textContent=`price:${price}`;
+
+  productdata.append(p1,p2,p3);
+})
 
 }
 
